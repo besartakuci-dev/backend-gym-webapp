@@ -1,0 +1,65 @@
+## Visual Studio cache/options
+.vs/
+.vscode/
+
+## Build results
+bin/
+obj/
+*.dll
+*.exe
+*.so
+*.dylib
+*.su
+*.o
+*.a
+*.lib
+
+## Visual Studio user-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Local environment files
+*.local
+*.env
+appsettings.local.json
+appsettings.Development.local.json
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+## Project-specific cache
+.cache/
+artifacts/
+
+## Build artifacts
+publish/
+PublishProfiles/
+
+## Package lock files (optional - uncomment if you want to share exact versions)
+# packages.lock.json
