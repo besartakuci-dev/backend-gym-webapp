@@ -62,6 +62,14 @@ namespace backend_gym_webapp.Services
         /// </summary>
         Task<bool> DeleteClassAsync(int id);
 
+        /// <summary>
+        /// EnrollUserAsync - Enroll one user in a gym class
+        /// Input: Class ID
+        /// Output: true if enrollment succeeds; false if class not found or full
+        /// Example use: When a user clicks "Enroll" for a class
+        /// </summary>
+        Task<bool> EnrollUserAsync(int id);
+
         // ===== HELPER METHODS =====
         /// <summary>
         /// GetAvailableClassesAsync - Get classes with available spots
@@ -265,6 +273,39 @@ namespace backend_gym_webapp.Services
             // Save changes to database (this is when the DELETE happens)
             await _context.SaveChangesAsync();
 
+            return true;
+        }
+
+        // ==================== ENROLLMENT OPERATION ====================
+        /// <summary>
+        /// EnrollUserAsync - Enroll one user in a class if capacity allows
+        ///
+        /// Steps:
+        /// 1. Find class by ID
+        /// 2. Return false if class doesn't exist
+        /// 3. Check if class is full
+        /// 4. Return false if no spots remain
+        /// 5. Increment enrolled count and update timestamp
+        /// 6. Save changes and return true
+        /// </summary>
+        public async Task<bool> EnrollUserAsync(int id)
+        {
+            var gymClass = await _context.GymClasses.FindAsync(id);
+
+            if (gymClass == null)
+            {
+                return false;
+            }
+
+            if (gymClass.EnrolledCount >= gymClass.MaxCapacity)
+            {
+                return false;
+            }
+
+            gymClass.EnrolledCount += 1;
+            gymClass.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
             return true;
         }
 

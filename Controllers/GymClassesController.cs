@@ -260,6 +260,30 @@ namespace backend_gym_webapp.Controllers
             }
         }
 
+        /// <summary>
+        /// POST /api/gymclasses/{id}/enroll
+        /// Enrolls a user in a class if there is available capacity.
+        /// </summary>
+        [HttpPost("{id}/enroll")]
+        public async Task<ActionResult> EnrollUser(int id)
+        {
+            try
+            {
+                var enrolled = await _service.EnrollUserAsync(id);
+
+                if (!enrolled)
+                {
+                    return BadRequest("Class is full");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error enrolling user: {ex.Message}");
+            }
+        }
+
         // ==================== UPDATE OPERATION ====================
         /// <summary>
         /// PUT /api/gymclasses/{id}
