@@ -35,6 +35,18 @@ builder.Services.AddSwaggerGen();
 // 8. Add Controllers
 builder.Services.AddControllers();
 
+// 9. Add CORS - Allow frontend to communicate with this backend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:5173", "https://localhost:5173")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 // ==================== BUILD THE APP ====================
 var app = builder.Build();
 
@@ -53,6 +65,9 @@ if (app.Environment.IsDevelopment())
 
 // Enable HTTPS
 app.UseHttpsRedirection();
+
+// Enable CORS before routing and controllers
+app.UseCors("AllowLocalhost");
 
 // Enable routing
 app.UseRouting();
